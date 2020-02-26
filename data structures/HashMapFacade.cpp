@@ -15,3 +15,7 @@ bool HashMapFacade::check(const std::string &value) const {
     else
         return false;
 }
+
+Checker::Type HashMapFacade::get_type() const {
+    return Type::STD_UNORDERED_MAP;
+}

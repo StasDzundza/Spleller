@@ -38,4 +38,8 @@ int ChainHashTable::get_hash(const std::string &key)const {
     return hash;
 }
 
+Checker::Type ChainHashTable::get_type() const {
+    return Type ::HASH_TABLE;
+}
+
 

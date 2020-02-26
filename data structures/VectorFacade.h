@@ -11,6 +11,7 @@ class VectorFacade : public Checker{
 public:
     void add(const std::string&value)override;
     bool check(const std::string&value)const override;
+    Type get_type()const override;
 private:
     std::vector<std::string>words;
 };

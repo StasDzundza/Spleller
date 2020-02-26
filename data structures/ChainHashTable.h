@@ -17,6 +17,7 @@ private:
     int get_hash(const std::string&value)const;
     static const int SIZE = 1000;
     std::vector<std::string> hash_table[SIZE];
+    Type get_type()const override;
 };
 
 

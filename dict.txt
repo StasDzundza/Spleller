@@ -1,0 +1,5 @@
+apple
+bike
+car
+duck
+sun

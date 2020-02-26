@@ -16,3 +16,7 @@ bool VectorFacade::check(const std::string &value) const {
         return false;
 }
 
+Checker::Type VectorFacade::get_type() const {
+    return Type::STD_VECTOR;
+}
+

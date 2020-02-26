@@ -19,6 +19,7 @@ public:
     BinaryTree(node*head);
     void add(const std::string& value)override;
     bool check(const std::string& value)const override;
+    Type get_type()const override;
 
 private:
     node*head;

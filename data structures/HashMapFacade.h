@@ -14,6 +14,7 @@ public:
     bool check(const std::string& value)const override;
 private:
     std::unordered_map<std::string,std::string> words;
+    Type get_type()const override;
 };
 
 

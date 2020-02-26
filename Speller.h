@@ -5,9 +5,23 @@
 #ifndef SPELLER_SPELLER_H
 #define SPELLER_SPELLER_H
 
+#include "data structures/checker.h"
+#include <vector>
+
 class Speller {
 public:
-    
+    Speller();
+    Speller(Checker::Type type);
+    void check_text(const std::string& path_to_dictionary,const std::string path_to_text,const std::string bad_words_filename);
+    ~Speller();
+private:
+    void load_dictionary(const std::string& path_to_dictionary);
+    void load_text(const std::string& path_to_text);
+    void to_lower_case(std::string&word);
+    Checker*checker;
+    std::vector<std::string> text_words;
+    Checker::Type checker_type;
+    int dictionary_loading_time = 0,checking_time = 0,number_of_words_in_text = 0,number_of_bad_words = 0;
 };
 
 
