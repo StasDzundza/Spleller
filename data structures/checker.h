@@ -17,5 +17,6 @@ public:
     virtual void add(const std::string&value) = 0;
     virtual bool check(const std::string&value)const = 0;
     virtual Type get_type()const = 0;
+    virtual std::string get_name()const = 0;
 };
 #endif //SPELLER_CHECKER_H

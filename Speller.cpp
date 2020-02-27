@@ -7,6 +7,7 @@
 #include "data structures/VectorFacade.h"
 #include "data structures/BinaryTree.h"
 #include "data structures/ChainHashTable.h"
+#include "Timer.h"
 #include <fstream>
 #include <iostream>
 #include <cctype>
@@ -39,15 +40,24 @@ Speller::Speller(Checker::Type type) {
 }
 
 void Speller::check_text(const std::string &path_to_dictionary, const std::string path_to_text, const std::string bad_words_filename) {
+    Timer timer;
+
+    timer.start();
     load_dictionary(path_to_dictionary);
+    dictionary_loading_time = timer.stop_and_get_result();
+
     load_text(path_to_text);
+
     std::ofstream output_file(bad_words_filename);
+    timer.start();
     for(auto &word:text_words){
         if(!checker->check(word)){
             number_of_bad_words++;
             output_file << word << '\n';
         }
     }
+    checking_time = timer.stop_and_get_result();
+
     output_file.close();
 }
 
@@ -78,7 +88,7 @@ void Speller::load_dictionary(const std::string& path_to_dictionary) {
 
 void Speller::load_text(const std::string &path_to_text) {
     std::ifstream file(path_to_text);
-    std::ios::iostate old_exceptions =file.exceptions();
+    std::ios::iostate old_exceptions = file.exceptions();
     file.exceptions(std::ios::failbit | std::ios::badbit);
     std::string word;
     try {
@@ -87,12 +97,16 @@ void Speller::load_text(const std::string &path_to_text) {
             c = file.get();
             if(file.eof()) {
                 break;
-            }else if (std::isalpha(c) or c == '\'') {
+            }else if (std::isalpha(c)) {
                 word += c;
-            } else if (!word.empty()) {
+            }else if(c == '\'' and !word.empty()){
+                word += '\'';
+            }else if (!word.empty()) {
                 to_lower_case(word);
+                if(word[word.size() - 1] == '\''){
+                    word.resize(word.size() - 1);
+                }
                 text_words.push_back(word);
-                number_of_words_in_text++;
                 word.clear();
             }
         }
@@ -103,8 +117,10 @@ void Speller::load_text(const std::string &path_to_text) {
         }
         else if(!word.empty()){
             to_lower_case(word);
+            if(word[word.size() - 1] == '\''){
+                word.resize(word.size() - 1);
+            }
             text_words.push_back(word);
-            number_of_words_in_text++;
             word.clear();
         }
         file.close();
@@ -112,7 +128,7 @@ void Speller::load_text(const std::string &path_to_text) {
 }
 
 void Speller::to_lower_case(std::string &word) {
-    std::transform(word.begin(), word.end(), word.begin(), [](unsigned char c) {
+    std::transform(word.begin(), word.end(), word.begin(), [](char c) {
         if (c != '\'')
             return std::tolower(c);
         else
@@ -120,7 +136,14 @@ void Speller::to_lower_case(std::string &word) {
     });
 }
 
+std::string Speller::get_result() {
+    return checker->get_name() + ' ' + std::to_string(dictionary_loading_time) +
+            ' ' + std::to_string(checking_time) + ' ' + std::to_string(text_words.size()) +
+            ' ' + std::to_string(number_of_bad_words);
+}
+
 Speller::~Speller() {
+    text_words.clear();
     delete checker;
 }
 

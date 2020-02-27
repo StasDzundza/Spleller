@@ -19,3 +19,7 @@ bool HashMapFacade::check(const std::string &value) const {
 Checker::Type HashMapFacade::get_type() const {
     return Type::STD_UNORDERED_MAP;
 }
+
+std::string HashMapFacade::get_name() const {
+    return "std_unordered_map";
+}

@@ -42,4 +42,8 @@ Checker::Type ChainHashTable::get_type() const {
     return Type ::HASH_TABLE;
 }
 
+std::string ChainHashTable::get_name() const {
+    return "hash_table";
+}
+
 

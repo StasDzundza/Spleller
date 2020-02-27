@@ -13,11 +13,12 @@ public:
     void add(const std::string&value)override;
     bool check(const std::string&value)const override;
     int get_max_collisions()const;
+    Type get_type()const override;
+    std::string get_name()const override;
 private:
     int get_hash(const std::string&value)const;
     static const int SIZE = 1000;
     std::vector<std::string> hash_table[SIZE];
-    Type get_type()const override;
 };
 
 

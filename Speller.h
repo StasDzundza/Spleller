@@ -13,6 +13,7 @@ public:
     Speller();
     Speller(Checker::Type type);
     void check_text(const std::string& path_to_dictionary,const std::string path_to_text,const std::string bad_words_filename);
+    std::string get_result();
     ~Speller();
 private:
     void load_dictionary(const std::string& path_to_dictionary);
@@ -21,7 +22,8 @@ private:
     Checker*checker;
     std::vector<std::string> text_words;
     Checker::Type checker_type;
-    int dictionary_loading_time = 0,checking_time = 0,number_of_words_in_text = 0,number_of_bad_words = 0;
+    unsigned long int dictionary_loading_time = 0,checking_time = 0;
+    int number_of_bad_words = 0;
 };
 
 

@@ -12,9 +12,10 @@ class HashMapFacade : public Checker{
 public:
     void add(const std::string& value)override;
     bool check(const std::string& value)const override;
+    Type get_type()const override;
+    std::string get_name()const override;
 private:
     std::unordered_map<std::string,std::string> words;
-    Type get_type()const override;
 };
 
 
