@@ -15,7 +15,7 @@ public:
     int get_max_collisions()const;
     Type get_type()const override;
     std::string get_name()const override;
-    ~ChainHashTable();
+    ~ChainHashTable()override ;
 private:
     int get_hash(const std::string&value)const;
     static const int SIZE = 1000;

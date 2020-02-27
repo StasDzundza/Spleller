@@ -84,8 +84,19 @@ std::string BinaryTree::get_name() const {
     return "binary_tree";
 }
 
-BinaryTree::~BinaryTree() {
-
+void BinaryTree::clear(node**current) {
+    if (*current != NULL){
+        clear(&(*current)->left);
+        clear(&(*current)->right);
+        delete *current;
+        *current = nullptr;
+    }
 }
+
+BinaryTree::~BinaryTree() {
+    clear(&head);
+}
+
+
 
 

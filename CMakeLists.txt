@@ -15,7 +15,7 @@ set(CMAKE_CXX_STANDARD 14)
         "data structures/ChainHashTable.h" "data structures/ChainHashTable.cpp"
         "data structures/BinaryTree.h" "data structures/BinaryTree.cpp"
         "data structures/VectorFacade.cpp" "data structures/VectorFacade.h"
-        "data structures/HashMapFacade.cpp" "data structures/HashMapFacade.h" Speller.cpp Speller.h Timer.cpp Timer.h)
+        "data structures/HashMapFacade.cpp" "data structures/HashMapFacade.h" Speller.cpp Speller.h Timer.cpp Timer.h "data structures/checker.cpp")
 
  #   target_link_libraries(speller ${Boost_LIBRARIES})
 #endif()

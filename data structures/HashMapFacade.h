@@ -14,7 +14,7 @@ public:
     bool check(const std::string& value)const override;
     Type get_type()const override;
     std::string get_name()const override;
-    ~HashMapFacade();
+    ~HashMapFacade()override;
 private:
     std::unordered_map<std::string,std::string> words;
 };

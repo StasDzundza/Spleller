@@ -21,11 +21,12 @@ public:
     bool check(const std::string& value)const override;
     Type get_type()const override;
     std::string get_name()const override;
-    ~BinaryTree();
+    ~BinaryTree()override;
 private:
     node*head;
     node* _add(const std::string& value);
     bool _check(node*current,const std::string& value)const;
+    void clear(node**current);
 };
 
 #endif //BINARYTREE_TREE_H
