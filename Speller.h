@@ -19,6 +19,9 @@ private:
     void load_dictionary(const std::string& path_to_dictionary);
     void load_text(const std::string& path_to_text);
     void to_lower_case(std::string&word);
+    void write_bad_words_to_file(const std::vector<std::string>bad_words, const std::string bad_words_filename);
+    Checker*allocate_checker(Checker::Type type);
+
     Checker*checker;
     std::vector<std::string> text_words;
     Checker::Type checker_type;

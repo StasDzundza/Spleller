@@ -21,10 +21,10 @@ public:
     bool check(const std::string& value)const override;
     Type get_type()const override;
     std::string get_name()const override;
+    ~BinaryTree();
 private:
     node*head;
-
-    void _add(node**current,const std::string& value);
+    node* _add(const std::string& value);
     bool _check(node*current,const std::string& value)const;
 };
 

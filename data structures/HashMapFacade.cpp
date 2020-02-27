@@ -23,3 +23,7 @@ Checker::Type HashMapFacade::get_type() const {
 std::string HashMapFacade::get_name() const {
     return "std_unordered_map";
 }
+
+HashMapFacade::~HashMapFacade() {
+    words.clear();
+}

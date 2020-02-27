@@ -13,6 +13,7 @@ public:
     bool check(const std::string&value)const override;
     Type get_type()const override;
     std::string get_name()const override;
+    ~VectorFacade();
 private:
     std::vector<std::string>words;
 };

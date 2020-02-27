@@ -12,28 +12,53 @@ BinaryTree::BinaryTree(node*head) {
 }
 
 void BinaryTree::add(const std::string& value) {
-    _add(&head,value);
+    if(!head)
+        head = _add(value);
+    else{
+        _add(value);
+    }
 }
 
-void BinaryTree::_add(node **current, const std::string& value) {
-    if (!*current) {
-        *current = new node;
-        (*current)->value = value;
-        (*current)->left = nullptr;
-        (*current)->right = nullptr;
-        return;
+typename BinaryTree::node* BinaryTree::_add(const std::string &value) {
+    node* newnode = new node;
+    newnode->value = value;
+    newnode->left = newnode->right = nullptr;
+
+    node* x = head;
+    node* y = nullptr;
+
+    while (x != nullptr) {
+        y = x;
+        if (value < x->value)
+            x = x->left;
+        else
+            x = x->right;
     }
-    if (value < (*current)->value)
-        _add(&(*current)->left, value);
-    else if(value > (*current)->value)
-        _add(&(*current)->right, value);
+    // If the root is NULL i.e the tree is empty
+    // The new node is the root node
+    if (y == nullptr)
+        y = newnode;
+    else if (value < y->value)
+        y->left = newnode;
     else
-        return;
+        y->right = newnode;
+    // Returns the pointer where the
+    // new node is inserted
+    return y;
 }
 
 bool BinaryTree::check(const std::string& value)const {
-    node*current = head;
-    return _check(current,value);
+    node* x = head;
+
+    while (x != NULL) {
+        if (value < x->value)
+            x = x->left;
+        else if(value > x->value)
+            x = x->right;
+        else
+            return true;
+    }
+    return false;
 }
 
 bool BinaryTree::_check(node *current, const std::string& value)const {
@@ -57,3 +82,9 @@ Checker::Type BinaryTree::get_type() const {
 std::string BinaryTree::get_name() const {
     return "binary_tree";
 }
+
+BinaryTree::~BinaryTree() {
+
+}
+
+

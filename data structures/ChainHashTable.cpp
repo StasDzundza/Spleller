@@ -46,4 +46,10 @@ std::string ChainHashTable::get_name() const {
     return "hash_table";
 }
 
+ChainHashTable::~ChainHashTable() {
+    for(auto&v : hash_table){
+        v.clear();
+    }
+}
+
 

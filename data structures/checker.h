@@ -18,5 +18,7 @@ public:
     virtual bool check(const std::string&value)const = 0;
     virtual Type get_type()const = 0;
     virtual std::string get_name()const = 0;
+    //virtual ~Checker() = 0;
 };
+//Checker::~Checker() {}
 #endif //SPELLER_CHECKER_H

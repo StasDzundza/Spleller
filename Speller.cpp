@@ -19,24 +19,23 @@ Speller::Speller() {
 }
 
 Speller::Speller(Checker::Type type) {
+    checker = allocate_checker(type);
+}
+
+Checker *Speller::allocate_checker(Checker::Type type) {
     switch (type){
         case Checker::Type::STD_VECTOR:
-            checker = new VectorFacade();
-            break;
+            return new VectorFacade();
 
         case Checker::Type::STD_UNORDERED_MAP:
-            checker = new HashMapFacade();
-            break;
+            return new HashMapFacade();
 
         case Checker::Type::BIN_TREE:
-            checker = new BinaryTree();
-            break;
+            return new BinaryTree();
 
         case Checker::Type::HASH_TABLE:
-            checker = new ChainHashTable();
-            break;
+            return new ChainHashTable();
     }
-    checker_type = checker->get_type();
 }
 
 void Speller::check_text(const std::string &path_to_dictionary, const std::string path_to_text, const std::string bad_words_filename) {
@@ -48,16 +47,22 @@ void Speller::check_text(const std::string &path_to_dictionary, const std::strin
 
     load_text(path_to_text);
 
-    std::ofstream output_file(bad_words_filename);
+    std::vector<std::string>bad_words;
     timer.start();
     for(auto &word:text_words){
         if(!checker->check(word)){
             number_of_bad_words++;
-            output_file << word << '\n';
+            bad_words.push_back(word);
         }
     }
     checking_time = timer.stop_and_get_result();
+    write_bad_words_to_file(bad_words,bad_words_filename);
+}
 
+void Speller::write_bad_words_to_file(const std::vector<std::string>bad_words, const std::string bad_words_filename) {
+    std::ofstream output_file(bad_words_filename);
+    for(auto &word:bad_words)
+        output_file << word << '\n';
     output_file.close();
 }
 
@@ -146,6 +151,10 @@ Speller::~Speller() {
     text_words.clear();
     delete checker;
 }
+
+
+
+
 
 
 
