@@ -4,6 +4,7 @@
 
 #include "VectorFacade.h"
 #include <algorithm>
+#include <iostream>
 void VectorFacade::add(const std::string &value) {
     words.push_back(value);
 }

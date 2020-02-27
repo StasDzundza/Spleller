@@ -56,7 +56,8 @@ void Speller::check_text(const std::string &path_to_dictionary, const std::strin
     timer.start();
     for(auto &word:text_words){
         if(!checker->check(word)){
-            bad_words.push_back(word);
+            if(!std::binary_search(bad_words.begin(),bad_words.end(),word))
+                bad_words.push_back(word);
         }
     }
     number_of_bad_words = bad_words.size();
@@ -173,7 +174,8 @@ Speller::~Speller() {
         delete checker;
 }
 
-void Speller::check_texts(const std::string &path_to_dictionary, const std::vector<std::string>& filenames) {
+void Speller::check_texts(const std::string &path_to_dictionary, const std::vector<std::string>& filenames,
+        bool check_repeats_of_bad_words) {
     /*std::vector<std::string> filenames;
     for(boost::filesystem::recursive_directory_iterator rdib(path_to_dir_with_texts), rdie; rdib != rdie; ++rdib){
         filenames.push_back(rdib->path().filename().string());
@@ -191,7 +193,10 @@ void Speller::check_texts(const std::string &path_to_dictionary, const std::vect
             timer.start();
             for(auto &word:text_words){
                 if(!checker->check(word)){
-                    bad_words.push_back(word);
+                    if(check_repeats_of_bad_words and std::find(bad_words.begin(),bad_words.end(),word) == bad_words.end())
+                        bad_words.push_back(word);
+                    else if(!check_repeats_of_bad_words)
+                        bad_words.push_back(word);
                 }
             }
             checking_time = timer.stop_and_get_result();
