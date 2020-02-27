@@ -47,15 +47,12 @@ Checker *Speller::allocate_checker(Checker::Type type) {
 }
 
 void Speller::check_text(const std::string &path_to_dictionary, const std::string& path_to_text) {
-    Timer timer;
-    timer.start();
     load_dictionary(path_to_dictionary);
-    dictionary_loading_time = timer.stop_and_get_result();
-
     load_text(path_to_text);
     std::string bad_words_filename = path_to_text + "_bad_words";
     std::vector<std::string>bad_words;
     number_of_bad_words = 0;
+    Timer timer;
     timer.start();
     for(auto &word:text_words){
         if(!checker->check(word)){
@@ -83,12 +80,14 @@ void Speller::load_dictionary(const std::string& path_to_dictionary) {
     std::ios::iostate old_exceptions = file.exceptions();
     file.exceptions(std::ios::failbit | std::ios::badbit);
     std::string word;
+    std::vector<std::string>dictionary;
     try {
         std::string word;
         while (true) {
             std::getline(file, word);
             if (!word.empty()) {
-                checker->add(word);
+                //checker->add(word);
+                dictionary.push_back(word);
                 word.clear();
             } else if(file.eof() or word.empty()){
                 break;
@@ -101,6 +100,13 @@ void Speller::load_dictionary(const std::string& path_to_dictionary) {
         }
         file.close();
     }
+    if(checker_type == Checker::Type::BIN_TREE)
+        std::random_shuffle(dictionary.begin(),dictionary.end());
+    Timer timer;
+    timer.start();
+    for(auto&word:dictionary)
+        checker->add(word);
+    dictionary_loading_time = timer.stop_and_get_result();
 }
 
 void Speller::load_text(const std::string& path_to_text) {
@@ -178,12 +184,11 @@ void Speller::check_texts(const std::string &path_to_dictionary, const std::vect
         load_text(text_filename);
         std::string bad_words_filename = "bad_words_" + std::to_string(index) + ".txt";
         std::cout << text_filename << std::endl;
-        for(int i = 1; i < 4; i++){
+        for(int i = 0; i < 4; i++){
             checker = allocate_checker((Checker::Type)i);
+            load_dictionary(path_to_dictionary);
             Timer timer;
             timer.start();
-            load_dictionary(path_to_dictionary);
-            dictionary_loading_time = timer.stop_and_get_result();
             for(auto &word:text_words){
                 if(!checker->check(word)){
                     bad_words.push_back(word);
