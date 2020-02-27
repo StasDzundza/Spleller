@@ -73,6 +73,7 @@ bool BinaryTree::_check(node *current, const std::string& value)const {
             _check(current->right,value);
         }
     }
+    return false;
 }
 
 Checker::Type BinaryTree::get_type() const {
