@@ -14,6 +14,10 @@
 #include <algorithm>
 //#include "boost/filesystem.hpp"
 
+namespace {
+    const int NumberOfDataStructures = 4;
+}
+
 Speller::Speller():checker_type(Checker::Type::STD_UNORDERED_MAP) {
 }
 
@@ -79,7 +83,6 @@ void Speller::load_dictionary(const std::string& path_to_dictionary) {
         while (true) {
             std::getline(file, word);
             if (!word.empty()) {
-                //checker->add(word);
                 dictionary.emplace_back(word);
                 word.clear();
             } else if(file.eof() or word.empty()){
@@ -171,7 +174,7 @@ void Speller::check_texts(const std::string &path_to_dictionary, const std::vect
         load_text(text_filename);
         std::string bad_words_filename = "bad_words_" + std::to_string(index) + ".txt";
         std::cout << text_filename << std::endl;
-        for(int i = 0; i < 4; i++){
+        for(int i = 0; i < NumberOfDataStructures; i++){
             checker_type = (Checker::Type)i;
             load_dictionary(path_to_dictionary);
             Timer timer;
@@ -186,7 +189,7 @@ void Speller::check_texts(const std::string &path_to_dictionary, const std::vect
             }
             checking_time = timer.stop_and_get_result();
             number_of_bad_words = bad_words.size();
-            if(i == 3)
+            if(i == (NumberOfDataStructures - 1))
                write_bad_words_to_file(bad_words,bad_words_filename);
             std::cout << get_result() << std::endl;
             bad_words.clear();

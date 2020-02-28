@@ -18,7 +18,7 @@ public:
     ~ChainHashTable()override ;
 private:
     int get_hash(const std::string&value)const;
-    static const int SIZE = 1000;
+    static const int SIZE = 2000;
     std::vector<std::string> hash_table[SIZE];
 };
 

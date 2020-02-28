@@ -6,6 +6,5 @@ int main() {
                                             "../texts/tolstoy.txt"};
     Speller s;
     s.check_texts(dict_path,path_to_texts);
-
     return 0;
 }
