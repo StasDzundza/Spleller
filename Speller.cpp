@@ -51,7 +51,7 @@ void Speller::check_text(const std::string &path_to_dictionary, const std::strin
     for(auto &word:text_words){
         if(!checker->check(word)){
             if(!std::binary_search(bad_words.begin(),bad_words.end(),word))
-                bad_words.push_back(word);
+                bad_words.emplace_back(word);
         }
     }
     number_of_bad_words = bad_words.size();
@@ -80,7 +80,7 @@ void Speller::load_dictionary(const std::string& path_to_dictionary) {
             std::getline(file, word);
             if (!word.empty()) {
                 //checker->add(word);
-                dictionary.push_back(word);
+                dictionary.emplace_back(word);
                 word.clear();
             } else if(file.eof() or word.empty()){
                 break;
@@ -123,7 +123,7 @@ void Speller::load_text(const std::string& path_to_text) {
                 if(word[word.size() - 1] == '\''){
                     word.resize(word.size() - 1);
                 }
-                text_words.push_back(word);
+                text_words.emplace_back(word);
                 word.clear();
             }
         }
@@ -137,7 +137,7 @@ void Speller::load_text(const std::string& path_to_text) {
             if(word[word.size() - 1] == '\''){
                 word.resize(word.size() - 1);
             }
-            text_words.push_back(word);
+            text_words.emplace_back(word);
             word.clear();
         }
         file.close();
@@ -179,9 +179,9 @@ void Speller::check_texts(const std::string &path_to_dictionary, const std::vect
             for(auto &word:text_words){
                 if(!checker->check(word)){
                     if(check_repeats_of_bad_words and std::find(bad_words.begin(),bad_words.end(),word) == bad_words.end())
-                        bad_words.push_back(word);
+                        bad_words.emplace_back(word);
                     else if(!check_repeats_of_bad_words)
-                        bad_words.push_back(word);
+                        bad_words.emplace_back(word);
                 }
             }
             checking_time = timer.stop_and_get_result();

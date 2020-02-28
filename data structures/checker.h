@@ -8,7 +8,7 @@
 #include <string>
 class Checker{
 public:
-    enum Type{
+    enum class Type{
         BIN_TREE,
         HASH_TABLE,
         STD_VECTOR,

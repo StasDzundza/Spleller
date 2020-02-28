@@ -7,7 +7,7 @@
 
 void ChainHashTable::add(const std::string &value) {
     int hash = get_hash(value);
-    hash_table[hash].push_back(value);
+    hash_table[hash].emplace_back(value);
 }
 
 bool ChainHashTable::check(const std::string &value)const {

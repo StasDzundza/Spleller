@@ -4,9 +4,9 @@
 
 #include "VectorFacade.h"
 #include <algorithm>
-#include <iostream>
+
 void VectorFacade::add(const std::string &value) {
-    words.push_back(value);
+    words.emplace_back(value);
 }
 
 bool VectorFacade::check(const std::string &value) const {
