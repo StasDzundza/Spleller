@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Speller.h"
 
 int main() {
@@ -7,6 +6,5 @@ int main() {
                                             "../texts/tolstoy.txt"};
     Speller s;
     s.check_texts(dict_path,path_to_texts);
-
     return 0;
 }

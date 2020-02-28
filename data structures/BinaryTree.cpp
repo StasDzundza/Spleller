@@ -3,12 +3,10 @@
 //
 #include "BinaryTree.h"
 
-BinaryTree::BinaryTree() {
-    head = nullptr;
+BinaryTree::BinaryTree():head(nullptr) {
 }
 
-BinaryTree::BinaryTree(node*head) {
-    this->head = head;
+BinaryTree::BinaryTree(node*head):head(head){
 }
 
 void BinaryTree::add(const std::string& value) {
@@ -85,7 +83,7 @@ std::string BinaryTree::get_name() const {
 }
 
 void BinaryTree::clear(node**current) {
-    if (*current != NULL){
+    if (*current != nullptr){
         clear(&(*current)->left);
         clear(&(*current)->right);
         delete *current;

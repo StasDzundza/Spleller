@@ -16,7 +16,7 @@ public:
     void check_texts(const std::string& path_to_dictionary,const std::vector<std::string>& path_to_text,
             bool check_repeats_of_bad_words = true);
     std::string get_result();
-    ~Speller();
+
 private:
     void load_dictionary(const std::string& path_to_dictionary);
     void load_text(const std::string& path_to_text);

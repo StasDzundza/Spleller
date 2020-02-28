@@ -24,7 +24,5 @@ std::string VectorFacade::get_name() const {
     return "std_vector";
 }
 
-VectorFacade::~VectorFacade() {
-    words.clear();
-}
+VectorFacade::~VectorFacade() {}
 

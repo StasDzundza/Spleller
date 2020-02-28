@@ -24,6 +24,4 @@ std::string HashMapFacade::get_name() const {
     return "std_unordered_map";
 }
 
-HashMapFacade::~HashMapFacade() {
-    words.clear();
-}
+HashMapFacade::~HashMapFacade() {}

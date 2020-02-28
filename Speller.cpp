@@ -14,31 +14,25 @@
 #include <algorithm>
 //#include "boost/filesystem.hpp"
 
-Speller::Speller() {
-    checker = new HashMapFacade();
-    checker_type = checker->get_type();
+Speller::Speller():checker_type(Checker::Type::STD_UNORDERED_MAP) {
 }
 
-Speller::Speller(Checker::Type type) {
-    checker = allocate_checker(type);
+Speller::Speller(Checker::Type type):checker_type(type) {
 }
 
 Checker *Speller::allocate_checker(Checker::Type type) {
+    checker_type = type;
     switch (type){
         case Checker::Type::STD_VECTOR:
-            checker_type = Checker::Type::STD_VECTOR;
             return new VectorFacade();
 
         case Checker::Type::STD_UNORDERED_MAP:
-            checker_type = Checker::Type::STD_UNORDERED_MAP;
             return new HashMapFacade();
 
         case Checker::Type::BIN_TREE:
-            checker_type = Checker::Type::BIN_TREE;
             return new BinaryTree();
 
         case Checker::Type::HASH_TABLE:
-            checker_type = Checker::Type::HASH_TABLE;
             return new ChainHashTable();
 
         default:
@@ -63,6 +57,7 @@ void Speller::check_text(const std::string &path_to_dictionary, const std::strin
     number_of_bad_words = bad_words.size();
     checking_time = timer.stop_and_get_result();
     write_bad_words_to_file(bad_words,bad_words_filename);
+    delete checker;
 }
 
 void Speller::write_bad_words_to_file(const std::vector<std::string>& bad_words, const std::string& bad_words_filename) {
@@ -73,10 +68,7 @@ void Speller::write_bad_words_to_file(const std::vector<std::string>& bad_words,
 }
 
 void Speller::load_dictionary(const std::string& path_to_dictionary) {
-    if(checker){
-        delete checker;
-        checker = allocate_checker(checker_type);
-    }
+    checker = allocate_checker(checker_type);
     std::ifstream file(path_to_dictionary);
     std::ios::iostate old_exceptions = file.exceptions();
     file.exceptions(std::ios::failbit | std::ios::badbit);
@@ -112,7 +104,6 @@ void Speller::load_dictionary(const std::string& path_to_dictionary) {
 
 void Speller::load_text(const std::string& path_to_text) {
     text_words.clear();
-
     std::ifstream file(path_to_text);
     std::ios::iostate old_exceptions = file.exceptions();
     file.exceptions(std::ios::failbit | std::ios::badbit);
@@ -168,12 +159,6 @@ std::string Speller::get_result() {
             ' ' + std::to_string(number_of_bad_words);
 }
 
-Speller::~Speller() {
-    text_words.clear();
-    if(checker)
-        delete checker;
-}
-
 void Speller::check_texts(const std::string &path_to_dictionary, const std::vector<std::string>& filenames,
         bool check_repeats_of_bad_words) {
     /*std::vector<std::string> filenames;
@@ -187,7 +172,7 @@ void Speller::check_texts(const std::string &path_to_dictionary, const std::vect
         std::string bad_words_filename = "bad_words_" + std::to_string(index) + ".txt";
         std::cout << text_filename << std::endl;
         for(int i = 0; i < 4; i++){
-            checker = allocate_checker((Checker::Type)i);
+            checker_type = (Checker::Type)i;
             load_dictionary(path_to_dictionary);
             Timer timer;
             timer.start();
@@ -210,7 +195,6 @@ void Speller::check_texts(const std::string &path_to_dictionary, const std::vect
         }
         index++;
     }
-    checker = nullptr;
 }
 
 
