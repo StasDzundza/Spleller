@@ -2,9 +2,8 @@
 
 int main() {
     std::string dict_path = "../dict/large.txt";
-    std::vector<std::string>path_to_texts = {"../texts/alice.txt","../texts/dracula.txt","../texts/holmes.txt","../texts/sherlock.txt",
-                                            "../texts/tolstoy.txt"};
+    std::string texts_path = "../texts";
     Speller s;
-    s.check_texts(dict_path,path_to_texts);
+    s.check_texts(dict_path,texts_path);
     return 0;
 }

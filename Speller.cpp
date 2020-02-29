@@ -8,12 +8,12 @@
 #include "data structures/BinaryTree.h"
 #include "data structures/ChainHashTable.h"
 #include "Timer.h"
-#include <fstream>
 #include <iostream>
 #include <cctype>
 #include <algorithm>
-//#include "boost/filesystem.hpp"
+#include "boost/filesystem.hpp"
 
+namespace fs = boost::filesystem;
 namespace {
     const int NumberOfDataStructures = 4;
 }
@@ -162,12 +162,15 @@ std::string Speller::get_result() {
             ' ' + std::to_string(number_of_bad_words);
 }
 
-void Speller::check_texts(const std::string &path_to_dictionary, const std::vector<std::string>& filenames,
+void Speller::check_texts(const std::string &path_to_dictionary, const std::string& path_to_dir_with_texts,
         bool check_repeats_of_bad_words) {
-    /*std::vector<std::string> filenames;
-    for(boost::filesystem::recursive_directory_iterator rdib(path_to_dir_with_texts), rdie; rdib != rdie; ++rdib){
-        filenames.push_back(rdib->path().filename().string());
-    }*/
+    std::vector<std::string> filenames;
+
+    for(fs::recursive_directory_iterator rdib(path_to_dir_with_texts), rdie; rdib != rdie; ++rdib){
+        std::string full_path_to_text = path_to_dir_with_texts + "/" + rdib->path().filename().string();
+        filenames.emplace_back(std::move(full_path_to_text));
+    }
+
     std::vector<std::string>bad_words;
     int index = 1;
     for(auto&text_filename:filenames){

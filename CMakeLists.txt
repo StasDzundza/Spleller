@@ -3,19 +3,22 @@ project(speller)
 
 set(CMAKE_CXX_STANDARD 14)
 #boost dependencies
-#set(Boost_USE_STATIC_LIBS OFF)
-#set(Boost_USE_MULTITHREADED ON)
-#set(BOOST_ROOT "../cpp_libs/boost_1_72_0")
-#find_package(Boost)
+set(Boost_USE_MULTITHREADED ON)
+set(BOOST_ROOT "/home/stas/stas/cpp_libs/boost_1_72_0/bin")
+find_package(Boost COMPONENTS filesystem REQUIRED)
 
-#if(Boost_FOUND)
- #   include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
+if(Boost_FOUND)
+    include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
-    add_executable(speller main.cpp "data structures/checker.h"
-        "data structures/ChainHashTable.h" "data structures/ChainHashTable.cpp"
-        "data structures/BinaryTree.h" "data structures/BinaryTree.cpp"
-        "data structures/VectorFacade.cpp" "data structures/VectorFacade.h"
-        "data structures/HashMapFacade.cpp" "data structures/HashMapFacade.h" Speller.cpp Speller.h Timer.cpp Timer.h "data structures/checker.cpp")
+    add_executable(speller main.cpp
+            "data structures/ChainHashTable.cpp"
+            "data structures/BinaryTree.cpp"
+            "data structures/VectorFacade.cpp"
+            "data structures/HashMapFacade.cpp"
+            "data structures/checker.cpp"
+            Speller.cpp
+            Timer.cpp
+            )
 
- #   target_link_libraries(speller ${Boost_LIBRARIES})
-#endif()
+    target_link_libraries(speller PRIVATE Boost::filesystem)
+endif()

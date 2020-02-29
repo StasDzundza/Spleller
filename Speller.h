@@ -13,7 +13,7 @@ public:
     Speller();
     Speller(Checker::Type type);
     void check_text(const std::string& path_to_dictionary,const std::string& path_to_text);
-    void check_texts(const std::string& path_to_dictionary,const std::vector<std::string>& path_to_text,
+    void check_texts(const std::string& path_to_dictionary,const std::string& path_to_dir_with_texts,
             bool check_repeats_of_bad_words = true);
     std::string get_result();
 
