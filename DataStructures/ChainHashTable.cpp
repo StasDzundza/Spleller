@@ -12,11 +12,7 @@ void ChainHashTable::add(const std::string &value) {
 
 bool ChainHashTable::check(const std::string &value)const {
     int hash = get_hash(value);
-    bool found = false;
-    auto it = std::find(hash_table[hash].begin(), hash_table[hash].end(), value);
-    if(it!=hash_table[hash].end())
-        found = true;
-    return found;
+    return std::find(hash_table[hash].begin(), hash_table[hash].end(), value) != hash_table[hash].end();
 }
 
 int ChainHashTable::get_max_collisions()const {

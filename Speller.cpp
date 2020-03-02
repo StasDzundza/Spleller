@@ -3,17 +3,19 @@
 //
 
 #include "Speller.h"
-#include "data structures/HashMapFacade.h"
-#include "data structures/VectorFacade.h"
-#include "data structures/BinaryTree.h"
-#include "data structures/ChainHashTable.h"
+#include "DataStructures/UnorderedMapWrapper.h"
+#include "DataStructures/VectorWrapper.h"
+#include "DataStructures/BinaryTree.h"
+#include "DataStructures/ChainHashTable.h"
 #include "Timer.h"
 #include <iostream>
 #include <cctype>
 #include <algorithm>
-#include "boost/filesystem.hpp"
+#include <filesystem>
+#include <fstream>
 
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
+
 namespace {
     const int NumberOfDataStructures = 4;
 }
@@ -28,10 +30,10 @@ Checker *Speller::allocate_checker(Checker::Type type) {
     checker_type = type;
     switch (type){
         case Checker::Type::STD_VECTOR:
-            return new VectorFacade();
+            return new VectorWrapper();
 
         case Checker::Type::STD_UNORDERED_MAP:
-            return new HashMapFacade();
+            return new UnorderedMapWrapper();
 
         case Checker::Type::BIN_TREE:
             return new BinaryTree();
@@ -40,7 +42,7 @@ Checker *Speller::allocate_checker(Checker::Type type) {
             return new ChainHashTable();
 
         default:
-            return new HashMapFacade();
+            return new UnorderedMapWrapper();
     }
 }
 
@@ -48,14 +50,15 @@ void Speller::check_text(const std::string &path_to_dictionary, const std::strin
     load_dictionary(path_to_dictionary);
     load_text(path_to_text);
     std::string bad_words_filename = path_to_text + "_bad_words";
-    std::vector<std::string>bad_words;
+    std::set<std::string>bad_words;
     number_of_bad_words = 0;
     Timer timer;
     timer.start();
     for(auto &word:text_words){
         if(!checker->check(word)){
-            if(!std::binary_search(bad_words.begin(),bad_words.end(),word))
-                bad_words.emplace_back(word);
+            if(std::find(bad_words.begin(),bad_words.end(),word) == bad_words.end()) {
+                bad_words.insert(word);
+            }
         }
     }
     number_of_bad_words = bad_words.size();
@@ -64,7 +67,7 @@ void Speller::check_text(const std::string &path_to_dictionary, const std::strin
     delete checker;
 }
 
-void Speller::write_bad_words_to_file(const std::vector<std::string>& bad_words, const std::string& bad_words_filename) {
+void Speller::write_bad_words_to_file(const std::set<std::string>& bad_words, const std::string& bad_words_filename) {
     std::ofstream output_file(bad_words_filename);
     for(auto &word:bad_words)
         output_file << word << '\n';
@@ -147,7 +150,7 @@ void Speller::load_text(const std::string& path_to_text) {
     }
 }
 
-void Speller::to_lower_case(std::string& word) {
+void Speller::to_lower_case(std::string& word)const {
     std::transform(word.begin(), word.end(), word.begin(), [](char c) {
         if (c != '\'')
             return std::tolower(c);
@@ -156,22 +159,15 @@ void Speller::to_lower_case(std::string& word) {
     });
 }
 
-std::string Speller::get_result() {
+std::string Speller::get_checking_result()const {
     return checker->get_name() + ' ' + std::to_string(dictionary_loading_time) +
             ' ' + std::to_string(checking_time) + ' ' + std::to_string(text_words.size()) +
             ' ' + std::to_string(number_of_bad_words);
 }
 
-void Speller::check_texts(const std::string &path_to_dictionary, const std::string& path_to_dir_with_texts,
-        bool check_repeats_of_bad_words) {
-    std::vector<std::string> filenames;
-
-    for(fs::recursive_directory_iterator rdib(path_to_dir_with_texts), rdie; rdib != rdie; ++rdib){
-        std::string full_path_to_text = path_to_dir_with_texts + "/" + rdib->path().filename().string();
-        filenames.emplace_back(std::move(full_path_to_text));
-    }
-
-    std::vector<std::string>bad_words;
+void Speller::check_texts(const std::string &path_to_dictionary, const std::string& path_to_dir_with_texts) {
+    std::vector<std::string> filenames = get_filenames(path_to_dir_with_texts);
+    std::set<std::string>bad_words;
     int index = 1;
     for(auto&text_filename:filenames){
         load_text(text_filename);
@@ -184,23 +180,31 @@ void Speller::check_texts(const std::string &path_to_dictionary, const std::stri
             timer.start();
             for(auto &word:text_words){
                 if(!checker->check(word)){
-                    if(check_repeats_of_bad_words and std::find(bad_words.begin(),bad_words.end(),word) == bad_words.end())
-                        bad_words.emplace_back(word);
-                    else if(!check_repeats_of_bad_words)
-                        bad_words.emplace_back(word);
+                    if(bad_words.find(word) == bad_words.end()) {
+                        bad_words.insert(word);
+                    }
                 }
             }
             checking_time = timer.stop_and_get_result();
             number_of_bad_words = bad_words.size();
-            if(i == (NumberOfDataStructures - 1))
-               write_bad_words_to_file(bad_words,bad_words_filename);
-            std::cout << get_result() << std::endl;
+            if(i == (NumberOfDataStructures - 1)) {
+                write_bad_words_to_file(bad_words, bad_words_filename);
+            }
+            std::cout << get_checking_result() << std::endl;
             bad_words.clear();
             number_of_bad_words = 0;
             delete checker;
         }
         index++;
     }
+}
+
+std::vector<std::string> Speller::get_filenames(const std::string &path_to_directory_with_files) const {
+    std::vector<std::string> filenames;
+    for (const auto &entry : fs::directory_iterator(path_to_directory_with_files)){
+        filenames.emplace_back(entry.path().string());
+    }
+    return filenames;
 }
 
 

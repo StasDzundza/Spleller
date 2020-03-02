@@ -5,23 +5,23 @@
 #ifndef SPELLER_SPELLER_H
 #define SPELLER_SPELLER_H
 
-#include "data structures/checker.h"
+#include "DataStructures/checker.h"
 #include <vector>
-
+#include <set>
 class Speller {
 public:
     Speller();
     Speller(Checker::Type type);
     void check_text(const std::string& path_to_dictionary,const std::string& path_to_text);
-    void check_texts(const std::string& path_to_dictionary,const std::string& path_to_dir_with_texts,
-            bool check_repeats_of_bad_words = true);
-    std::string get_result();
+    void check_texts(const std::string& path_to_dictionary,const std::string& path_to_dir_with_texts);
+    std::string get_checking_result()const;
 
 private:
     void load_dictionary(const std::string& path_to_dictionary);
     void load_text(const std::string& path_to_text);
-    void to_lower_case(std::string&word);
-    void write_bad_words_to_file(const std::vector<std::string>& bad_words, const std::string& bad_words_filename);
+    void to_lower_case(std::string&word)const;
+    std::vector<std::string> get_filenames(const std::string&path_to_directory_with_files)const;
+    void write_bad_words_to_file(const std::set<std::string>& bad_words, const std::string& bad_words_filename);
     Checker*allocate_checker(Checker::Type type);
 
     Checker*checker;
