@@ -2,13 +2,13 @@
 // Created by STAS on 26.02.2020.
 //
 
-#ifndef SPELLER_VECTORWRAPPER_H
-#define SPELLER_VECTORWRAPPER_H
+#ifndef SPELLER_UNORDEREDSETWRAPPER_H
+#define SPELLER_UNORDEREDSETWRAPPER_H
 
 #include "checker.h"
-#include <vector>
+#include <unordered_set>
 
-class VectorWrapper : public Checker {
+class UnorderedSetWrapper : public Checker {
 public:
     void add(const std::string &value) override;
 
@@ -18,11 +18,11 @@ public:
 
     std::string get_name() const override;
 
-    ~VectorWrapper() override;
+    ~UnorderedSetWrapper() override;
 
 private:
-    std::vector<std::string> words;
+    std::unordered_set<std::string> words;
 };
 
 
-#endif //SPELLER_VECTORWRAPPER_H
+#endif //SPELLER_UNORDEREDSETWRAPPER_H

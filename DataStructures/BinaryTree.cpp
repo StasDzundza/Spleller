@@ -2,54 +2,51 @@
 // Created by STAS on 26.02.2020.
 //
 #include "BinaryTree.h"
+#include <queue>
 
-BinaryTree::BinaryTree():mHead(nullptr) {
+BinaryTree::BinaryTree() : mHead(nullptr) {
 }
 
-BinaryTree::BinaryTree(Node*head): mHead(head){
+BinaryTree::BinaryTree(Node *head) : mHead(head) {
 }
 
-void BinaryTree::add(const std::string& value) {
-    if(!mHead)
-        mHead = _add(value);
-    else{
-        _add(value);
+void BinaryTree::add(const std::string &value) {
+    // start with mHead node
+    Node *curr = mHead;
+    // pointer to store parent node of current node
+    Node *parent = nullptr;
+
+    // if tree is empty, create a new node and set root
+    if (mHead == nullptr) {
+        mHead = new Node(value);
+        return;
+    }
+    // traverse the tree and find parent node of key
+    while (curr != nullptr) {
+        // update parent node as current node
+        parent = curr;
+        if (value < curr->value) {
+            curr = curr->left;
+        } else {
+            curr = curr->right;
+        }
+    }
+    // construct a new node and assign to appropriate parent pointer
+    if (value < parent->value) {
+        parent->left = new Node(value);
+    } else {
+        parent->right = new Node(value);
     }
 }
 
-typename BinaryTree::Node* BinaryTree::_add(const std::string &value) {
-    Node* newnode = new Node(value);
-    Node* current_node = mHead;
-    Node* auxiliary_node = nullptr;
+bool BinaryTree::check(const std::string &value) const {
+    Node *current_node = mHead;
 
     while (current_node != nullptr) {
-        auxiliary_node = current_node;
         if (value < current_node->value)
             current_node = current_node->left;
-        else
+        else if (value > current_node->value)
             current_node = current_node->right;
-    }
-    // If the root is NULL i.e the tree is empty
-    // The new Node is the root Node
-    if (auxiliary_node == nullptr)
-        auxiliary_node = newnode;
-    else if (value < auxiliary_node->value)
-        auxiliary_node->left = newnode;
-    else
-        auxiliary_node->right = newnode;
-    // Returns the pointer where the
-    // new Node is inserted
-    return auxiliary_node;
-}
-
-bool BinaryTree::check(const std::string& value)const {
-    Node* x = mHead;
-
-    while (x != nullptr) {
-        if (value < x->value)
-            x = x->left;
-        else if(value > x->value)
-            x = x->right;
         else
             return true;
     }
@@ -64,16 +61,29 @@ std::string BinaryTree::get_name() const {
     return "binary_tree";
 }
 
-void BinaryTree::clear(Node**current) {
-    if (*current != nullptr){
-        clear(&(*current)->left);
-        clear(&(*current)->right);
-        delete *current;
-    }
-}
-
 BinaryTree::~BinaryTree() {
-    clear(&mHead);
+    // not empty tree
+    if (mHead != nullptr) {
+        // create an empty queue and enqueue root node
+        std::queue<Node *> queue;
+        queue.push(mHead);
+        Node *front = nullptr;
+        // run till queue is not empty
+        while (!queue.empty()) {
+            // delete each node in the queue one by one after pushing their
+            // non-empty left and right child to the queue
+            front = queue.front();
+            queue.pop();
+            if (front->left) {
+                queue.push(front->left);
+            }
+            if (front->right) {
+                queue.push(front->right);
+            }
+            // Important - delete front node ONLY after enqueuing its children
+            delete front;
+        }
+    }
 }
 
 

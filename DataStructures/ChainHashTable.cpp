@@ -10,32 +10,32 @@ void ChainHashTable::add(const std::string &value) {
     hash_table[hash].emplace_back(value);
 }
 
-bool ChainHashTable::check(const std::string &value)const {
+bool ChainHashTable::check(const std::string &value) const {
     int hash = get_hash(value);
     return std::find(hash_table[hash].begin(), hash_table[hash].end(), value) != hash_table[hash].end();
 }
 
-int ChainHashTable::get_max_collisions()const {
+int ChainHashTable::get_max_collisions() const {
     int max_collisions = 0;
-    for(int i = 0; i < SIZE; i++){
-        if(hash_table[i].size() > max_collisions){
+    for (int i = 0; i < SIZE; i++) {
+        if (hash_table[i].size() > max_collisions) {
             max_collisions = hash_table[i].size();
         }
     }
     return max_collisions;
 }
 
-int ChainHashTable::get_hash(const std::string &key)const {
+int ChainHashTable::get_hash(const std::string &key) const {
     int hash = 0;
-    for(int i = 0; i < key.size(); i++){
-        hash+=key[i];
+    for (int i = 0; i < key.size(); i++) {
+        hash += key[i];
     }
-    hash = hash%SIZE;
+    hash = hash % SIZE;
     return hash;
 }
 
 Checker::Type ChainHashTable::get_type() const {
-    return Type ::HASH_TABLE;
+    return Type::HASH_TABLE;
 }
 
 std::string ChainHashTable::get_name() const {

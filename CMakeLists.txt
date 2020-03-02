@@ -7,7 +7,7 @@ add_executable(speller main.cpp
             "DataStructures/ChainHashTable.cpp"
             "DataStructures/BinaryTree.cpp"
             "DataStructures/VectorWrapper.cpp"
-            "DataStructures/UnorderedMapWrapper.cpp"
+            "DataStructures/UnorderedSetWrapper.cpp"
             Speller.cpp
             Timer.cpp
             )
