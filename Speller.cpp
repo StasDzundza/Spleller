@@ -7,6 +7,7 @@
 #include "DataStructures/VectorWrapper.h"
 #include "DataStructures/BinaryTree.h"
 #include "DataStructures/ChainHashTable.h"
+#include "DataStructures/Trie.h"
 #include "Timer.h"
 #include <iostream>
 #include <cctype>
@@ -17,7 +18,7 @@
 namespace fs = std::filesystem;
 
 namespace {
-    const int NumberOfDataStructures = 4;
+    const int NumberOfDataStructures = 5;
 }
 
 Speller::Speller() : checker_type(Checker::Type::STD_UNORDERED_SET) {
@@ -40,6 +41,9 @@ Checker *Speller::allocate_checker(Checker::Type type) {
 
         case Checker::Type::HASH_TABLE:
             return new ChainHashTable();
+
+        case Checker::Type::TRIE:
+            return new Trie();
 
         default:
             return new UnorderedSetWrapper();

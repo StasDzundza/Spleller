@@ -13,7 +13,8 @@ public:
         BIN_TREE,
         HASH_TABLE,
         STD_VECTOR,
-        STD_UNORDERED_SET
+        STD_UNORDERED_SET,
+        TRIE
     };
 
     virtual void add(const std::string &value) = 0;

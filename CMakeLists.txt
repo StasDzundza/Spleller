@@ -10,6 +10,8 @@ add_executable(speller main.cpp
             "DataStructures/UnorderedSetWrapper.cpp"
             Speller.cpp
             Timer.cpp
-            )
+        DataStructures/Trie.cpp DataStructures/Trie.h)
 
 target_link_libraries(speller PRIVATE stdc++fs)
+
+target_compile_options(speller PRIVATE -O4)

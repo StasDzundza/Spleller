@@ -1,6 +1,4 @@
 #include "Speller.h"
-#include <hash_set>
-
 
 int main() {
     std::string dict_path = "../dict/large.txt";
