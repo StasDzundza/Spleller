@@ -81,28 +81,27 @@ void Speller::write_bad_words_to_file(const std::set<std::string> &bad_words, co
 
 void Speller::load_dictionary(const std::string &path_to_dictionary) {
     checker = allocate_checker(checker_type);
-    std::ifstream file(path_to_dictionary);
-    std::ios::iostate old_exceptions = file.exceptions();
-    file.exceptions(std::ios::failbit | std::ios::badbit);
-    std::string word;
+    std::ifstream input_text_file(path_to_dictionary);
+    std::ios::iostate old_exceptions = input_text_file.exceptions();
+    input_text_file.exceptions(std::ios::failbit | std::ios::badbit);
     std::vector<std::string> dictionary;
     try {
         std::string word;
         while (true) {
-            std::getline(file, word);
+            std::getline(input_text_file, word);
             if (!word.empty()) {
                 dictionary.emplace_back(word);
                 word.clear();
-            } else if (file.eof() or word.empty()) {
+            } else if (input_text_file.eof() or word.empty()) {
                 break;
             }
         }
     } catch (...) {
-        if (!file.eof()) {
-            file.exceptions(old_exceptions);
+        if (!input_text_file.eof()) {
+            input_text_file.exceptions(old_exceptions);
             throw;
         }
-        file.close();
+        input_text_file.close();
     }
     if (checker_type == Checker::Type::BIN_TREE) {
         std::random_shuffle(dictionary.begin(), dictionary.end());
@@ -117,15 +116,15 @@ void Speller::load_dictionary(const std::string &path_to_dictionary) {
 
 void Speller::load_text(const std::string &path_to_text) {
     text_words.clear();
-    std::ifstream file(path_to_text);
-    std::ios::iostate old_exceptions = file.exceptions();
-    file.exceptions(std::ios::failbit | std::ios::badbit);
+    std::ifstream input_text_file(path_to_text);
+    std::ios::iostate old_exceptions = input_text_file.exceptions();
+    input_text_file.exceptions(std::ios::failbit | std::ios::badbit);
     std::string word;
     try {
         char c;
         while (true) {
-            c = file.get();
-            if (file.eof()) {
+            c = input_text_file.get();
+            if (input_text_file.eof()) {
                 break;
             } else if (std::isalpha(c)) {
                 word += c;
@@ -141,8 +140,8 @@ void Speller::load_text(const std::string &path_to_text) {
             }
         }
     } catch (...) {
-        if (!file.eof()) {
-            file.exceptions(old_exceptions);
+        if (!input_text_file.eof()) {
+            input_text_file.exceptions(old_exceptions);
             throw;
         } else if (!word.empty()) {
             to_lower_case(word);
@@ -152,7 +151,7 @@ void Speller::load_text(const std::string &path_to_text) {
             text_words.emplace_back(word);
             word.clear();
         }
-        file.close();
+        input_text_file.close();
     }
 }
 

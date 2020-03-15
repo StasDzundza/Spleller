@@ -17,7 +17,7 @@ void Trie::add(const std::string &word) {
     Node *current_node = root.get();
     int current_letter;
 
-    for (int i = 0; i < word.length(); i++) {
+    for (size_t i = 0; i < word.length(); i++) {
         current_letter = word.at(i) - a_ASCII_CODE;
         if (current_letter < 0) {
             current_letter = NUMBER_OF_LETTERS;
@@ -39,7 +39,7 @@ bool Trie::check(const std::string &word) const {
 
     int current_letter;
 
-    for (int i = 0; i < word.length(); i++) {
+    for (size_t i = 0; i < word.length(); i++) {
         current_letter = word.at(i) - a_ASCII_CODE;
         if (current_letter < 0) {
             current_letter = NUMBER_OF_LETTERS;

@@ -1,30 +1,29 @@
-../texts/sherlock.txt
-binary_tree 87 43 107641 310
-hash_table 6 34 107641 310
-std_vector 5 28 107641 310
-std_unordered_set 31 6 107641 310
-trie 57 3 107641 310
+binary_tree 85 43 107641 310
+hash_table 6 38 107641 310
+std_vector 5 29 107641 310
+std_unordered_set 33 7 107641 310
+trie 58 4 107641 310
 ../texts/dracula.txt
-binary_tree 72 65 163842 642
-hash_table 6 48 163842 642
-std_vector 4 45 163842 642
-std_unordered_set 30 10 163842 642
-trie 34 5 163842 642
+binary_tree 71 65 163842 642
+hash_table 6 54 163842 642
+std_vector 4 44 163842 642
+std_unordered_set 33 10 163842 642
+trie 36 5 163842 642
 ../texts/alice.txt
-binary_tree 71 10 29759 78
-hash_table 6 8 29759 78
-std_vector 3 7 29759 78
-std_unordered_set 31 1 29759 78
-trie 31 1 29759 78
+binary_tree 73 10 29759 78
+hash_table 6 9 29759 78
+std_vector 4 7 29759 78
+std_unordered_set 39 2 29759 78
+trie 34 1 29759 78
 ../texts/holmes.txt
-binary_tree 70 455 1151249 7106
-hash_table 6 379 1151249 7106
+binary_tree 72 461 1151249 7106
+hash_table 6 414 1151249 7106
 std_vector 4 340 1151249 7106
-std_unordered_set 30 82 1151249 7106
-trie 29 50 1151249 7106
+std_unordered_set 31 80 1151249 7106
+trie 32 52 1151249 7106
 ../texts/tolstoy.txt
-binary_tree 72 226 567999 2282
-hash_table 6 190 567999 2282
-std_vector 4 163 567999 2282
-std_unordered_set 38 38 567999 2282
-trie 30 20 567999 2282
+binary_tree 71 229 567999 2282
+hash_table 6 208 567999 2282
+std_vector 4 157 567999 2282
+std_unordered_set 35 37 567999 2282
+trie 29 21 567999 2282

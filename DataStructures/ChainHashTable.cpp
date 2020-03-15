@@ -16,7 +16,7 @@ bool ChainHashTable::check(const std::string &value) const {
 }
 
 int ChainHashTable::get_max_collisions() const {
-    int max_collisions = 0;
+    unsigned int max_collisions = 0;
     for (int i = 0; i < SIZE; i++) {
         if (hash_table[i].size() > max_collisions) {
             max_collisions = hash_table[i].size();
@@ -27,7 +27,7 @@ int ChainHashTable::get_max_collisions() const {
 
 int ChainHashTable::get_hash(const std::string &key) const {
     int hash = 0;
-    for (int i = 0; i < key.size(); i++) {
+    for (size_t i = 0; i < key.size(); i++) {
         hash += key[i];
     }
     hash = hash % SIZE;

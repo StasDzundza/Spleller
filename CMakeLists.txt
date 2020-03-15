@@ -14,4 +14,4 @@ add_executable(speller main.cpp
 
 target_link_libraries(speller PRIVATE stdc++fs)
 
-target_compile_options(speller PRIVATE -O4)
+target_compile_options(speller PRIVATE -Wall -Wextra -pedantic -Werror -O3)
